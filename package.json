@@ -1,0 +1,31 @@
+{
+  "name": "fundsniffer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Thin, tested wrapper around finanzen.net for ISIN search and fund data.",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "type-check": "npm run typecheck",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "test:live": "FUNDSNIFFER_LIVE=1 node --test tests/live.test.ts",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run type-check && npm test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@types/node": "^26.6.2",
+    "prettier": "^3.9.8",
+    "typescript": "^7.0.2"
+  }
+}
