@@ -35,6 +35,22 @@ caller ──▶ createFundSnifferClient ──▶ HttpClient ──▶ finanzen
   it is fully unit-testable against fixtures.
 - `client.ts` wires resolution + scraping together; `normalize.ts` maps the scraped shape
   onto `FundInfo`.
+- `server.ts` is a tiny dependency-free HTTP wrapper (`node:http`) so the package can run as a
+  backend: `GET /fund/:isin` -> `FundInfo` JSON, plus `GET /health`. Config via `PORT`,
+  `HOST`, `MIN_DELAY_MS`, `CACHE`.
+
+## Docker
+
+`Dockerfile` (node:24-alpine, no build step, runs `src/server.ts` directly) and
+`docker-compose.yml` expose the server on port 8484. The runtime strips the unused npm /
+corepack / yarn tooling and the apk cache, then flattens the result into a `scratch` stage so
+the deletions actually shrink the image (a `RUN rm` on top of the base only adds a whiteout).
+
+```bash
+docker build -t fundsniffer:latest .
+docker compose up --build
+curl localhost:8484/fund/IE00B4L5Y983
+```
 
 ## Project layout
 
@@ -48,6 +64,7 @@ src/
   isin.ts         structural + check-digit ISIN validation
   errors.ts       FundSnifferError + codes
   types.ts        FundInfo / Holding / Breakdown / SearchResult
+  server.ts       HTTP backend (node:http): GET /fund/:isin, GET /health
   parse/
     html.ts       tiny dependency-free HTML parser + DOM helpers
     page.ts       instrument page -> ParsedFund (key facts, holdings, charts)
@@ -67,6 +84,7 @@ examples/
 ## Scripts
 
 ```bash
+npm start              # run the HTTP backend: node src/server.ts
 npm test               # fixture tests via node --test (type stripping, no build)
 npm run test:coverage  # tests + built-in coverage report
 npm run test:live      # real network smoke test, gated by FUNDSNIFFER_LIVE=1

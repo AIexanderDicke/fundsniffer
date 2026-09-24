@@ -11,6 +11,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "start": "node src/server.ts",
     "typecheck": "tsc --noEmit",
     "type-check": "npm run typecheck",
     "test": "node --test",

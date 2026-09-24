@@ -1,0 +1,10 @@
+services:
+  fundsniffer:
+    build: .
+    image: fundsniffer:latest
+    ports:
+      - "8484:8484"
+    environment:
+      PORT: "8484"
+      MIN_DELAY_MS: "1000"
+    restart: unless-stopped

@@ -162,3 +162,24 @@ export const fundsnifferProvider = {
 
 `FundSnifferError` (blocked/timeout/network) should be treated as transient and trigger the
 `FundService` stale-cache fallback; a `null` return means "no data".
+
+## HTTP backend
+
+`src/server.ts` (also `npm start` / the Docker image) wraps `client.getFund` in a tiny
+`node:http` server. Start it with `node src/server.ts`; config via `PORT` (8484),
+`HOST` (0.0.0.0), `MIN_DELAY_MS` (1000) and `CACHE` (on unless `"false"`).
+
+```http
+GET /fund/:isin   -> 200 FundInfo JSON
+GET /health       -> 200 {"status":"ok"}
+```
+
+Errors are returned as JSON `{ "error": <code>, "message": "..." }`:
+
+| status | when                                                       |
+| ------ | ---------------------------------------------------------- |
+| 400    | `invalid` — malformed ISIN.                                |
+| 404    | unknown route, or `not_found` — no ETF/fund for the ISIN.  |
+| 502    | `network` / `parse`.                                       |
+| 503    | `blocked` — includes `Retry-After` when the site sent one. |
+| 504    | `timeout`.                                                 |
