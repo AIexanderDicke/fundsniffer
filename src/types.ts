@@ -1,9 +1,8 @@
 /**
  * Public data model of the wrapper.
  *
- * `FundInfo` is intentionally shaped like the `FundInfo` used by the
- * `etf-viewer` project (which sources the same fields from FundFacts), so this
- * package can act as a drop-in `HoldingsProvider` for it.
+ * `FundInfo` is the normalized shape returned for a fund or ETF looked up on
+ * finanzen.net.
  */
 
 /** A single constituent of a fund. */
@@ -54,7 +53,7 @@ export interface FundInfo {
   /** Sector / country exposure, when published. */
   breakdowns?: Breakdowns;
 
-  /** finanzen.net extras that have no FundFacts equivalent. */
+  /** Extra finanzen.net fields beyond the core model. */
   wkn?: string;
   /** Canonical finanzen.net page URL. */
   url?: string;

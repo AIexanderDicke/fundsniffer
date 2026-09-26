@@ -142,27 +142,6 @@ class FundSnifferError extends Error {
 - `extractIsinFromUrl(url)`
 - `createMemoryCache(limit?)`, `parseRetryAfter(header)`, `HttpClient`
 
-## Using it as an `etf-viewer` provider
-
-`etf-viewer`'s `HoldingsProvider` is a single method, so the adapter is tiny:
-
-```ts
-import type { FundInfo } from "../shared/types.ts";
-import { createFundSnifferClient } from "fundsniffer";
-
-const client = createFundSnifferClient({ minDelayMs: 1000 });
-
-export const fundsnifferProvider = {
-  name: "finanzen.net",
-  getFund(isin: string): Promise<FundInfo | null> {
-    return client.getFund(isin);
-  },
-};
-```
-
-`FundSnifferError` (blocked/timeout/network) should be treated as transient and trigger the
-`FundService` stale-cache fallback; a `null` return means "no data".
-
 ## HTTP backend
 
 `src/server.ts` (also `npm start` / the Docker image) wraps `client.getFund` in a tiny

@@ -48,7 +48,7 @@ https://c.finanzen.net/chart.aspx?...&labels=Semiconductors%3BHardware&values=14
 
 ## Field availability
 
-| Wanted (FundFacts)                                           | finanzen.net | Notes                              |
+| Field                                                        | finanzen.net | Notes                              |
 | ------------------------------------------------------------ | ------------ | ---------------------------------- |
 | `currency`, `ter`, `assetClass`, `distribution`, `benchmark` | yes          |                                    |
 | `topHoldings`                                                | yes (top 10) | ETF has ISINs, funds do not        |

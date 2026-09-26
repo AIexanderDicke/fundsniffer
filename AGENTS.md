@@ -5,7 +5,7 @@ Project context for agents working on this package.
 ## What this is
 
 A thin, dependency-free TypeScript wrapper around **finanzen.net** that looks up funds and
-ETFs by ISIN and returns a `FundInfo` shaped like the one `etf-viewer` gets from FundFacts.
+ETFs by ISIN and returns a normalized `FundInfo`.
 
 It does two things:
 
